@@ -11,7 +11,7 @@ Add the ability to accept payments in Opencart v2.3 via Payop.com.
 
 
 ## Installation
- 1. Download latest [release](https://github.com/Payop/opencart-v3-plugin/releases)
+ 1. Download latest [release](https://github.com/Payop/opencart-v2.3-plugin/releases)
  2. Unzip and upload folder to your site root directory from upload folder.   
  2. Log in to your Opencart admin dashboard, navigate to the Extentions menu and click "Install" button over against Payop plugin.
  4. After plugin installed, click edit on Payop plugin.
@@ -25,7 +25,7 @@ Use below parameters to configure your PayOp project:
 
 ## Support
 
-* [Open an issue](https://github.com/Payop/opencart-v3-plugin/issues) if you are having issues with this plugin.
+* [Open an issue](https://github.com/Payop/opencart-v2.3-plugin/issues) if you are having issues with this plugin.
 * [PayOp Documentation](https://payop.com/en/documentation/common/)
 * [Contact PayOp support](https://payop.com/en/contact-us/)
   
@@ -43,7 +43,7 @@ Use below parameters to configure your PayOp project:
 
 Would you like to help with this project?  Great!  You don't have to be a developer, either.
 If you've found a bug or have an idea for an improvement, please open an
-[issue](https://github.com/Payop/opencart-v3-plugin/issues) and tell us about it.
+[issue](https://github.com/Payop/opencart-v2.3-plugin/issues) and tell us about it.
 
 If you *are* a developer wanting contribute an enhancement, bugfix or other patch to this project,
 please fork this repository and submit a pull request detailing your changes.  We review all PRs!
@@ -55,5 +55,5 @@ which means if you would like to use this project's code in your own project you
 ## License
 
 Please refer to the 
-[LICENSE](https://github.com/Payop/opencart-v3-plugin/blob/master/LICENSE)
+[LICENSE](https://github.com/Payop/opencart-v2.3-plugin/blob/master/LICENSE)
 file that came with this project.

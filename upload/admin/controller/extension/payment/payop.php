@@ -1,8 +1,20 @@
 <?php
-class ControllerExtensionPaymentPayop extends Controller {
+
+/**
+ * Class ControllerExtensionPaymentPayop
+ */
+class ControllerExtensionPaymentPayop extends Controller
+{
+    /**
+     * @var array
+     */
     private $error = array();
 
-    public function index() {
+    /**
+     *
+     */
+    public function index()
+    {
         $this->load->language('extension/payment/payop');
 
         $this->document->setTitle($this->language->get('heading_title'));
@@ -138,7 +150,11 @@ class ControllerExtensionPaymentPayop extends Controller {
         $this->response->setOutput($this->load->view('extension/payment/payop', $data));
     }
 
-    protected function validate() {
+    /**
+     * @return bool
+     */
+    protected function validate()
+    {
         if (!$this->user->hasPermission('modify', 'extension/payment/payop')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }

@@ -3,7 +3,7 @@ Opencart v2.3 PayOp Payment Gateway
 
 ## Brief Description
 
-Add the ability to accept payments in Opencart v3 via Payop.com.
+Add the ability to accept payments in Opencart v2.3 via Payop.com.
 
 ## Requirements
 

@@ -23,7 +23,7 @@ class ControllerExtensionPaymentPayop extends Controller
         $orderData['order']['description'] = 'Payment order #' . $this->session->data['order_id'];
         $orderData['customer'] = [];
         $orderData['customer']['email'] = $order_info['email'];
-        $orderData['customer']['name'] = $order_info['payment_firstname'] . $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
+        $orderData['customer']['name'] = $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
         $orderData['customer']['phone'] = $order_info['telephone'];
         $orderData['language'] = ($this->session->data['language'] == 'ru_ru') ? 'ru' : 'en';
         $orderData['resultUrl'] = $this->url->link('checkout/success');

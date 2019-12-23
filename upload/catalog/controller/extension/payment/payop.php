@@ -104,7 +104,11 @@ class ControllerExtensionPaymentPayop extends Controller
                         $this->log->write('Error callback!');
                     }
                 }
+            } else {
+                $this->log->write('Error. Callback is not an object');
             }
+        } else {
+            $this->log->write('Invalid server request');
         }
     }
 

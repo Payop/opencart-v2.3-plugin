@@ -12,6 +12,7 @@ $_['text_payop'] = '<a href="https://payop.com/ru/solution/" target="_blank"><im
 $_['entry_public'] = 'Публичный ключ';
 $_['entry_secret'] = 'Секретный ключ';
 $_['entry_complete_status'] = 'Статус заказа при успешной оплате';
+$_['entry_pending_status'] = 'Статус заказа при ожидании оплаты';
 $_['entry_failed_status'] = 'Статус заказа при неудачной оплате';
 $_['entry_geo_zone'] = 'Гео зона';
 $_['entry_status'] = 'Статус';

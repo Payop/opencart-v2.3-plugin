@@ -40,6 +40,7 @@ class ControllerExtensionPaymentPayop extends Controller
         $data['entry_secret'] = $this->language->get('entry_secret');
         $data['entry_total'] = $this->language->get('entry_total');
         $data['entry_complete_status'] = $this->language->get('entry_complete_status');
+        $data['entry_pending_status'] = $this->language->get('entry_pending_status');
         $data['entry_failed_status'] = $this->language->get('entry_failed_status');
         $data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
         $data['entry_status'] = $this->language->get('entry_status');
@@ -108,6 +109,11 @@ class ControllerExtensionPaymentPayop extends Controller
             $data['payop_order_status_id'] = $this->config->get('payop_order_status_id');
         }
 
+        if (isset($this->request->post['payop_pending_status_id'])) {
+            $data['payop_pending_status_id'] = $this->request->post['payop_pending_status_id'];
+        } else {
+            $data['payop_pending_status_id'] = $this->config->get('payop_pending_status_id');
+        }
 
         if (isset($this->request->post['payop_failed_status_id'])) {
             $data['payop_failed_status_id'] = $this->request->post['payop_failed_status_id'];

@@ -18,7 +18,7 @@ class ControllerExtensionPaymentPayop extends Controller
         $orderData['publicKey'] = $this->config->get('payop_public');
         $orderData['order'] = [];
         $orderData['order']['id'] = strval($this->session->data['order_id']);
-        $orderData['order']['amount'] = number_format($this->currency->format($order_info['total'], $order_info['currency_code'], '', false), 4);
+        $orderData['order']['amount'] = number_format($this->currency->format($order_info['total'], $order_info['currency_code'], '', false), 4, ".", "");
         $orderData['order']['currency'] = $order_info['currency_code'];
         $orderData['order']['description'] = 'Payment order #' . $this->session->data['order_id'];
         $orderData['order']['items'] = [];
@@ -35,9 +35,11 @@ class ControllerExtensionPaymentPayop extends Controller
             $this->session->data['order_id'],
             number_format($this->currency->format($order_info['total'],
             $order_info['currency_code'], '', false), 4), $order_info['currency_code'],
-            $this->config->get('payop_secret')
+            $this->config->get('payop_secret'),
+            false
         );
         $invoice_id = $this->apiRequest($orderData);
+
         $data['action'] = "https://payop.com/{$orderData['language']}/payment/invoice-preprocessing/{$invoice_id}";
         return $this->load->view('extension/payment/payop', $data);
     }
@@ -50,7 +52,6 @@ class ControllerExtensionPaymentPayop extends Controller
     {
         $apiUrl = 'https://payop.com/v1/invoices/create';
         $data = json_encode($orderData);
-
         $ch = curl_init($apiUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -82,26 +83,30 @@ class ControllerExtensionPaymentPayop extends Controller
             $callback = json_decode($callback, false);
             if (is_object($callback)) {
                 if(isset($callback->invoice)) {
+                    $this->load->model('checkout/order');
                     if ($this->callback_check($callback) === 'valid'){
-                        $this->load->model('checkout/order');
                         if($callback->transaction->state === 2) {
                             $this->model_checkout_order->addOrderHistory($callback->transaction->order->id, $this->config->get('payop_order_status_id'));
                         } elseif ($callback->transaction->state === 3 or $callback->transaction->state === 5) {
                             $this->model_checkout_order->addOrderHistory($callback->transaction->order->id, $this->config->get('payop_failed_status_id'));
                         }
                     } else {
+                        $this->model_checkout_order->addOrderHistory($callback->orderId, $this->config->get('payop_pending_status_id'));
                         $this->log->write('Error callback: '. $this->callback_check($callback));
                     }
                 } else {
-                    $signature = $this->generate_signature($callback->orderId, $callback->amount, $callback->currency, $this->config->get('payop_secret'));
+                    $this->load->model('checkout/order');
+                    $signature = $this->generate_signature($callback->orderId, $callback->amount, $callback->currency, $this->config->get('payop_secret'), $callback->status);
                     if ($callback->signature == $signature) {
-                        $this->load->model('checkout/order');
-                        if ($callback->status === 'success')
+                        if ($callback->status === 'success') {
                             $this->model_checkout_order->addOrderHistory($callback->orderId, $this->config->get('payop_order_status_id'));
-                        else if ($callback->status === 'error')
+                        }
+                        else if ($callback->status === 'error') {
                             $this->model_checkout_order->addOrderHistory($callback->orderId, $this->config->get('payop_failed_status_id'));
+                        }
                     } else {
                         $this->log->write('Error callback!');
+                        $this->model_checkout_order->addOrderHistory($callback->orderId, $this->config->get('payop_pending_status_id'));
                     }
                 }
             } else {
@@ -123,6 +128,7 @@ class ControllerExtensionPaymentPayop extends Controller
         $orderId = !empty($callback->transaction->order->id) ? $callback->transaction->order->id : null;
         $state = !empty($callback->transaction->state) ? $callback->transaction->state : null;
 
+
         if (!$invoiceId) {
             return 'Empty invoice id';
         }
@@ -141,11 +147,14 @@ class ControllerExtensionPaymentPayop extends Controller
     /**
      * @return string
      */
-    private function generate_signature($orderId, $amount, $currency, $secretKey)
+    private function generate_signature($orderId, $amount, $currency, $secretKey, $status)
     {
         $sign_str = ['id' => $orderId, 'amount' => $amount, 'currency' => $currency];
         ksort($sign_str, SORT_STRING);
         $sign_data = array_values($sign_str);
+        if ($status){
+            array_push($sign_data, $status);
+        }
         array_push($sign_data, $secretKey);
         return hash('sha256', implode(':', $sign_data));
     }

@@ -12,7 +12,7 @@ $_['text_payop'] = '<a href="https://payop.com/en/solution/" target="_blank"><im
 $_['entry_public'] = 'Public key';
 $_['entry_secret'] = 'Secret key';
 $_['entry_complete_status'] = 'Order Complete Status';
-$_['entry_pending_status'] = 'Pending Status ';
+$_['entry_pending_status'] = 'Pending Status';
 $_['entry_failed_status'] = 'Failed Status';
 $_['entry_geo_zone'] = 'Geo Zone';
 $_['entry_status'] = 'Status';

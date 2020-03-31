@@ -34,7 +34,7 @@ class ControllerExtensionPaymentPayop extends Controller
         $orderData['signature'] = $this->generate_signature(
             $this->session->data['order_id'],
             number_format($this->currency->format($order_info['total'],
-            $order_info['currency_code'], '', false), 4), $order_info['currency_code'],
+            $order_info['currency_code'], '', false), 4, ".", ""), $order_info['currency_code'],
             $this->config->get('payop_secret'),
             false
         );

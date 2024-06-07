@@ -40,7 +40,7 @@ class ControllerExtensionPaymentPayop extends Controller
         );
         $invoice_id = $this->apiRequest($orderData);
 
-        $data['action'] = "https://payop.com/{$orderData['language']}/payment/invoice-preprocessing/{$invoice_id}";
+        $data['action'] = "https://checkout.payop.com/{$orderData['language']}/payment/invoice-preprocessing/{$invoice_id}";
         return $this->load->view('extension/payment/payop', $data);
     }
 
@@ -50,7 +50,7 @@ class ControllerExtensionPaymentPayop extends Controller
      */
     private function apiRequest($orderData)
     {
-        $apiUrl = 'https://payop.com/v1/invoices/create';
+        $apiUrl = 'https://api.payop.com/v1/invoices/create';
         $data = json_encode($orderData);
         $ch = curl_init($apiUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
